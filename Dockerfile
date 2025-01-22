@@ -1,7 +1,5 @@
 FROM golang:alpine AS builder
 
-RUN apt-get update && apt-get install -y musl-dev musl-tools gcc
-
 WORKDIR /app
 
 COPY go.* ./
