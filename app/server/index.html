@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <title>{{.Title}}</title>
+    <meta name="apple-mobile-web-app-title" content="{{.Title}}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="alternate" type="text/calendar" href="./events.ics">
+    <style>
+        body {
+            background: #1a4731;
+            color: #e0e7e4;
+            font-family: system-ui, sans-serif;
+            margin: 0;
+            min-height: 60vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            gap: 2rem;
+        }
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+        .description {
+            margin: 1rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+            text-align: center;
+            border: 2px solid currentColor;
+            border-radius: 8px;
+            padding: 1rem;
+            margin: 0.5rem;
+            transition: all 0.2s;
+            display: block;
+        }
+        .primary-container .description {
+            font-size: 1.1rem;
+            text-align: center;
+        }
+        .primary {
+            font-size: 1.5rem;
+            width: min(100%, 300px);
+            margin: 0 auto;
+        }
+        .secondary {
+            font-size: 1rem;
+            opacity: 0.8;
+            width: min(100%, 300px);
+            margin: 0 auto;
+        }
+        a:hover {
+            background: rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>{{.Title}}</h1>
+</div>
+<div class="container primary-container">
+    <div class="description">{{.MainDescription}}</div>
+    <a class="primary" href="webcal://{{.BaseURL}}/events.ics">{{.MainLinkText}}</a>
+</div>
+<div class="container">
+    <div class="description">{{.SecondaryDescription}}</div>
+    <a class="secondary" href="//{{.BaseURL}}/events.ics">{{.SecondaryLinkText}}</a>
+</div>
+</body>
+</html>
