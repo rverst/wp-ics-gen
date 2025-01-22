@@ -17,6 +17,6 @@ WORKDIR /root/
 
 COPY --from=builder /app/server .
 COPY --from=builder /usr/local/go/lib/time/zoneinfo.zip /root/zoneinfo.zip
-ENV ZONEINFO=/zoneinfo.zip
+ENV ZONEINFO=/root/zoneinfo.zip
 
 CMD ["./server"]
