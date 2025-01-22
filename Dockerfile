@@ -1,5 +1,7 @@
 FROM golang:alpine AS builder
 
+RUN apt-get update && apt-get install -y musl-dev musl-tools gcc
+
 WORKDIR /app
 
 COPY go.* ./
@@ -14,7 +16,9 @@ FROM alpine:latest
 RUN apk --no-cache add ca-certificates
 
 WORKDIR /root/
-COPY --from=builder /app/server .
 
-EXPOSE 8080
+COPY --from=builder /app/server .
+COPY --from=builder /usr/local/go/lib/time/zoneinfo.zip /root/zoneinfo.zip
+ENV ZONEINFO=/zoneinfo.zip
+
 CMD ["./server"]
