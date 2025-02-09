@@ -56,6 +56,10 @@ func (e Entries) ToIcs() (string, [32]byte) {
 			fmt.Fprintf(&b, "DTSTART;VALUE=DATE:%s\n", entry.FromDate.Format("20060102T150405"))
 			if entry.ToDate.After(entry.FromDate) {
 				fmt.Fprintf(&b, "DTEND;VALUE=DATE:%s\n", entry.ToDate.Format("20060102T150405"))
+			} else {
+				toDate := time.Date(entry.FromDate.Year(), entry.FromDate.Month(), entry.FromDate.Day(),
+					23, 59, 59, 0, entry.FromDate.Location())
+				fmt.Fprintf(&b, "DTEND;VALUE=DATE:%s\n", toDate.Format("20060102T150405"))
 			}
 		}
 		if entry.Location.ID > 0 {
