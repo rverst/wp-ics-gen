@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"html"
+	"log/slog"
 	"os"
 	"regexp"
 	"strconv"
@@ -20,8 +21,10 @@ const (
 	eventTimePattern = "2006-01-02 15:04:05"
 )
 
-var lastHash [32]byte
-var eventLocations = make(map[string]EventLocation)
+var (
+	lastHash       [32]byte
+	eventLocations = make(map[string]EventLocation)
+)
 
 type Worker struct {
 	ticker    *time.Ticker
@@ -53,7 +56,7 @@ func (w Worker) StartWorker() {
 		for {
 			select {
 			case <-w.stop:
-				fmt.Println("worker stopped")
+				slog.Info("worker stopped")
 				return
 			case <-w.ticker.C:
 				go w.generateIcs()
@@ -84,7 +87,6 @@ func (w Worker) generateIcs() {
 
 func (w Worker) updateContent(ics string, hash [32]byte) {
 	if bytes.Equal(hash[:], lastHash[:]) {
-		fmt.Println("no changes")
 		return
 	}
 	fmt.Println("changes detected", hex.EncodeToString(hash[:]), hex.EncodeToString(lastHash[:]))

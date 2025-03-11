@@ -3,6 +3,7 @@ package server
 import (
 	_ "embed"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"sync"
 	"text/template"
@@ -61,6 +62,10 @@ func (s *Server) Start() error {
 		content := s.content
 		s.contentMux.RUnlock()
 
+		slog.InfoContext(r.Context(), "serving iCal file",
+			"User-Agent", r.Header.Get("User-Agent"),
+			"RemoteAddr", r.RemoteAddr,
+		)
 		w.Header().Set("Content-Type", "text/calendar; charset=utf-8")
 		w.Header().Set("Content-Disposition", "attachment; filename=events.ics")
 		_, _ = w.Write([]byte(content))
